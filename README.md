@@ -1,1 +1,4 @@
-# rsync_plugin_fuel8
+rsync_plugin_fuel8
+============
+
+Plugin description

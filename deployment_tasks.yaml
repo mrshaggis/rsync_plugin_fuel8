@@ -1,0 +1,49 @@
+# These tasks will be merged into deployment graph. Here you
+# can specify new tasks for any roles, even built-in ones.
+
+- id: rsync-plugin-fuel8
+  type: group
+  role: [rsync-plugin-fuel8]
+
+- id: rsync-plugin-fuel8-deployment-puppet
+  type: puppet
+  role: [rsync-plugin-fuel8]
+  required_for: [deploy_end]
+  requires: [deploy_start]
+  parameters: 
+    puppet_manifest: "puppet/manifests/init.pp"
+    puppet_modules: "puppet/modules:/etc/puppet/modules"
+    timeout: 3600
+
+# If you do not want to use task-based deployment that is introduced as experimental
+# in fuel v8.0 comment code section below this comment, uncomment two lines below it
+# and do the same for tasks below.
+
+
+#- id: test-post-deployment-sh
+#  type: shell
+#  role: [test_role]
+#  version: 2.0.0
+#  cross-depends:
+#    - name: post_deployment_start
+#  cross-depended-by:
+#    - name: post_deployment_end
+# #  requires: [post_deployment_start]
+# #  required_for: [post_deployment_end]
+#  parameters:
+#    cmd: echo post_deployment_task_executed > /tmp/post_deployment
+#    retries: 3
+#    interval: 20
+#    timeout: 180
+
+- id: rsync-plugin-fuel8-pre-deployment-sh
+  version: 2.0.0
+  type: shell
+  role: [rsync-plugin-fuel8]
+  required_for: [pre_deployment_start]
+  parameters:
+    cmd: "mkdir -p /var/tmp/rsync_backup && chmod 0777 /var/tmp/rsync_backup"
+    cwd: "/"
+    retries: 3
+    interval: 20
+    timeout: 180

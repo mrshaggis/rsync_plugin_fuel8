@@ -1,0 +1,11 @@
+attributes:
+  metadata:
+    # Settings group can be one of "general", "security", "compute", "network",
+    # "storage", "logging", "openstack_services" and "other".
+    group: 'other'
+  test_text:
+    value: '/var/tmp'
+    label: 'BackupFolder'
+    description: 'Folder where the backups are stored'
+    weight: 25
+    type: "text"
