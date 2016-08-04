@@ -1,0 +1,1 @@
+# rsync_plugin_fuel8
