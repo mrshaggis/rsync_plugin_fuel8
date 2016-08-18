@@ -27,7 +27,7 @@
   requires: [post_deployment-start]
   required_for: [post_deployment_end]
   parameters:
-          puppet_manifests: "puppet/manifests/cron.pp"
+          puppet_manifest: "puppet/manifests/cron.pp"
           puppet_modules: "puppet/modules:/etc/puppet/modules"
           timeout: 3600
 
@@ -50,6 +50,7 @@
   requires: [hiera]
   required_for: [deploy_start]
   parameters:
+          cmd: ""
           puppet_manifest: "puppet/manifests/firstbackup.pp"
           puppet_modules: "puppet/modules:/etc/puppet/modules"
           timeout: 3600
