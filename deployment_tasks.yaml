@@ -3,39 +3,33 @@
 
 - id: rsync-plugin-fuel8
   type: group
+  requires: [deploy_start]
+  required_for: [deploy_end]
+  tasks: [rsync-plugin-fuel8-deployment-puppet]
   role: [rsync-plugin-fuel8]
+  parameters:
+          strategy:
+                  type: parallel
 
 - id: rsync-plugin-fuel8-deployment-puppet
   type: puppet
-  role: [rsync-plugin-fuel8]
-  required_for: [deploy_end]
+  groups: [rsync-plugin-fuel8]
   requires: [deploy_start]
+  required_for: [deploy_end]
   parameters: 
-    puppet_manifest: "puppet/manifests/init.pp"
+    puppet_manifest: "puppet/manifests/rsyncback.pp"
     puppet_modules: "puppet/modules:/etc/puppet/modules"
     timeout: 3600
 
-# If you do not want to use task-based deployment that is introduced as experimental
-# in fuel v8.0 comment code section below this comment, uncomment two lines below it
-# and do the same for tasks below.
-
-
-#- id: test-post-deployment-sh
-#  type: shell
-#  role: [test_role]
-#  version: 2.0.0
-#  cross-depends:
-#    - name: post_deployment_start
-#  cross-depended-by:
-#    - name: post_deployment_end
-# #  requires: [post_deployment_start]
-# #  required_for: [post_deployment_end]
-#  parameters:
-#    cmd: echo post_deployment_task_executed > /tmp/post_deployment
-#    retries: 3
-#    interval: 20
-#    timeout: 180
-
+- id: rsync-plugin-cron
+  role: ['compute','base-os']
+  type: puppet
+  requires: [post_deployment-start]
+  required_for: [post_deployment_end]
+  parameters:
+          puppet_manifests: "puppet/manifests/cron.pp"
+          puppet_modules: "puppet/modules:/etc/puppet/modules"
+          timeout: 3600
 - id: rsync-plugin-fuel8-pre-deployment-sh
   version: 2.0.0
   type: shell
