@@ -5,7 +5,7 @@
   type: group
   requires: [deploy_start]
   required_for: [deploy_end]
-  tasks: [rsync-plugin-fuel8-deployment-puppet]
+  tasks: [hiera, globals, tools, logging, firewall, rsync-plugin-fuel8-deployment-puppet]
   role: [rsync-plugin-fuel8]
   parameters:
           strategy:
@@ -22,7 +22,7 @@
     timeout: 3600
 
 - id: rsync-plugin-cron
-  role: ['compute','base-os']
+  role: [compute,base-os]
   type: puppet
   requires: [post_deployment-start]
   required_for: [post_deployment_end]
@@ -30,6 +30,7 @@
           puppet_manifests: "puppet/manifests/cron.pp"
           puppet_modules: "puppet/modules:/etc/puppet/modules"
           timeout: 3600
+
 - id: rsync-plugin-fuel8-pre-deployment-sh
   version: 2.0.0
   type: shell
@@ -41,3 +42,14 @@
     retries: 3
     interval: 20
     timeout: 180
+
+- id: rsync-plugin-fuel8-firstbackup
+  version: 2.0.0
+  type: shell
+  role: [compute, base-os]
+  requires: [hiera]
+  required_for: [deploy_start]
+  parameters:
+          puppet_manifest: "puppet/manifests/firstbackup.pp"
+          puppet_modules: "puppet/modules:/etc/puppet/modules"
+          timeout: 3600
