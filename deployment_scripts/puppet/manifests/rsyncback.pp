@@ -1,4 +1,9 @@
-class {'rsyncbackup':}
+$rsyncbackup_hash = hiera('rsync-plugin-fuel8',{})
+
+
+class {'rsyncbackup':
+  base => $rsyncbackup_hash['base']
+}
 
 class {'::firewall':}
 
