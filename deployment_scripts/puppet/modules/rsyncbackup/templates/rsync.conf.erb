@@ -1,0 +1,11 @@
+max connections = 100
+log file = /var/log/rsync.log
+timeout = 300
+
+[backup]
+  comment = Backup Folder
+  path = <%= @base %>
+  read only = no
+  list = yes
+  fake super = yes
+  numeric ids = yes
