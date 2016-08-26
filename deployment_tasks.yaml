@@ -24,7 +24,7 @@
 - id: rsync-plugin-cron
   role: [compute,base-os]
   type: puppet
-  requires: [post_deployment-start]
+  requires: [post_deployment_start]
   required_for: [post_deployment_end]
   parameters:
           puppet_manifest: "puppet/manifests/cron.pp"
