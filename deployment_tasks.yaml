@@ -45,10 +45,10 @@
 
 - id: rsync-plugin-fuel8-firstbackup
   version: 2.0.0
-  type: shell
+  type: puppet
   role: [compute, base-os]
-  requires: [hiera]
-  required_for: [deploy_start]
+  requires: [post_deployment_start]
+  required_for: [post_deployment_end]
   parameters:
           cmd: ""
           puppet_manifest: "puppet/manifests/firstbackup.pp"
