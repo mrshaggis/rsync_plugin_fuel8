@@ -35,7 +35,7 @@
   version: 2.0.0
   type: shell
   role: [rsync-plugin-fuel8]
-  required_for: [pre_deployment_start]
+  required_for: [deploy_start]
   parameters:
     cmd: "mkdir -p /var/tmp/rsync_backup && chmod 0777 /var/tmp/rsync_backup"
     cwd: "/"
