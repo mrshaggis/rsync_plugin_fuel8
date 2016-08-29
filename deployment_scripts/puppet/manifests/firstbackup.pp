@@ -1,6 +1,6 @@
 $nodes_hash = hiera('nodes')
 
-$rsync_node = filter_nodes($nodes_hash, 'role', 'rsync-fuel-plugin8')
+$rsync_node = filter_nodes($nodes_hash, 'role', 'rsync_plugin_fuel8_role')
 
 $rsync_nodename = $rsync_node[0]['fqdn']
 
